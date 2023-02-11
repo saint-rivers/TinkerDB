@@ -1,13 +1,13 @@
 plugins {
     id("java")
-     id("org.springframework.boot") version "3.0.2"
+    id("org.springframework.boot") version "3.0.2"
     id("io.spring.dependency-management") version "1.1.0"
     id("org.graalvm.buildtools.native") version "0.9.18"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
 }
 
-group = "com.saintrivers"
+group = "com.saintrivers.tinkerdb"
 version = "0.0.1-SNAPSHOT"
 
 repositories {
@@ -30,6 +30,8 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+
+    implementation(project(":commons"))
 }
 
 tasks.getByName<Test>("test") {

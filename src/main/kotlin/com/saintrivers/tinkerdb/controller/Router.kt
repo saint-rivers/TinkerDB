@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.router
 
 @Configuration(proxyBeanMethods = false)
-class Router() {
+class Router {
 
     @Bean
     fun route(dockerHandler: DockerHandler): RouterFunction<ServerResponse> = router {
