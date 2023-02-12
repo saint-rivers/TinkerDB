@@ -27,6 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation(project(mapOf("path" to ":commons")))
 //    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 //    runtimeOnly("org.postgresql:postgresql")

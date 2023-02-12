@@ -1,4 +1,4 @@
-package com.saintrivers.tinkerdb.commons
+package com.saintrivers.tinkerdb.commons.util
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

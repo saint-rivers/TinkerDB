@@ -8,13 +8,14 @@ import org.springframework.web.reactive.function.server.RouterFunction
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.router
 
-@Configuration(proxyBeanMethods = false)
+@Configuration//(proxyBeanMethods = false)
 class Router {
 
     @Bean
     fun route(dockerHandler: DockerHandler): RouterFunction<ServerResponse> = router {
         accept(MediaType.APPLICATION_JSON).nest {
             GET("/docker/healthcheck/{name}").invoke(dockerHandler::isUp)
+            GET("/docker/database").invoke(dockerHandler::createPostgres)
         }
     }
 }
