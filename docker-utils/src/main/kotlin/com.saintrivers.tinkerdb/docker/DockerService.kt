@@ -7,4 +7,5 @@ interface DockerService {
     fun isUp(containerName: String): Boolean
     fun createDatabaseContainer(request: DatabaseContainerRequest): DatabaseCreatedResponse
     fun stopDatabaseContainer(containerId: String): Boolean
+    fun startDatabaseContainer(containerId: String): Boolean
 }

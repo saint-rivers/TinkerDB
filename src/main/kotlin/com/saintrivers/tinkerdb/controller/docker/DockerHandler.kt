@@ -48,4 +48,12 @@ class DockerHandler(private val dockerService: DockerService) {
         )
     }
 
+    fun startDatabase(req: ServerRequest): Mono<ServerResponse> {
+        val containerId = req.pathVariables()["containerId"]
+        val isStopped = containerId?.let { dockerService.startDatabaseContainer(it) }
+        return ServerResponse.ok().bodyValue(
+            mapOf("containerStatus" to isStopped)
+        )
+    }
+
 }

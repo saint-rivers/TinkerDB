@@ -29,6 +29,13 @@ class DockerServiceImpl : DockerService {
         r.stdout == containerId
     }
 
+    override fun startDatabaseContainer(containerId: String): Boolean = runBlocking {
+        val r = withTimeout(3.seconds) {
+            executeShellCommand(docker, *start(containerId))
+        }
+        r.stdout == containerId
+    }
+
     override fun createDatabaseContainer(request: DatabaseContainerRequest): DatabaseCreatedResponse =
         runBlocking {
             request.containerName = "${request.username}_${request.containerName}"

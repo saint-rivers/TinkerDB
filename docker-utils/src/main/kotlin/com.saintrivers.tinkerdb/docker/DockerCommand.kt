@@ -6,6 +6,10 @@ fun stop(containerId: String): Array<String> {
     return arrayOf("stop", containerId)
 }
 
+fun start(containerId: String): Array<String> {
+    return arrayOf("start", containerId)
+}
+
 fun runPostgres(request: DatabaseContainerRequest): Array<String> {
     return arrayOf(
         "run",

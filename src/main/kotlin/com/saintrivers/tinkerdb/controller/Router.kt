@@ -17,7 +17,8 @@ class Router {
             accept(MediaType.APPLICATION_JSON).nest {
                 GET("/healthcheck/{name}").invoke(dockerHandler::isUp)
                 POST("/database").invoke(dockerHandler::createPostgres)
-                PUT("/database/{containerId}").invoke (dockerHandler::stopDatabase)
+                PUT("/database/stop/{containerId}").invoke(dockerHandler::stopDatabase)
+                PUT("/database/start/{containerId}").invoke(dockerHandler::startDatabase)
             }
         }
 
