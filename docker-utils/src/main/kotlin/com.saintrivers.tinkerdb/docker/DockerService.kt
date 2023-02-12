@@ -6,5 +6,5 @@ import com.saintrivers.tinkerdb.commons.database.DatabaseContainerRequest
 interface DockerService {
     fun isUp(containerName: String): Boolean
     fun createDatabaseContainer(request: DatabaseContainerRequest): DatabaseCreatedResponse
-//    fun stopDatabaseContainer()
+    fun stopDatabaseContainer(containerId: String): Boolean
 }

@@ -22,9 +22,16 @@ class DockerServiceImpl : DockerService {
         r.stdout.contains("UP", ignoreCase = true) || r.stdout.contains("HEALTHY", ignoreCase = true)
     }
 
+    override fun stopDatabaseContainer(containerId: String): Boolean = runBlocking {
+        val r = withTimeout(3.seconds) {
+            executeShellCommand(docker, *stop(containerId))
+        }
+        r.stdout == containerId
+    }
+
     override fun createDatabaseContainer(request: DatabaseContainerRequest): DatabaseCreatedResponse =
         runBlocking {
-            val r = withTimeout(800.seconds) {
+            val r = withTimeout(3.seconds) {
                 executeShellCommand(
                     docker,
                     // the * converts the Array<String> into a pointer for the varargs parameter
@@ -51,7 +58,7 @@ private fun DatabaseCreatedResponse.Companion.from(
         databaseVersion = request.databaseVersion,
         connection = DatabaseConnectionResponse(
             databaseName = request.databaseName,
-            username = request.username,
+            username = request.dbUsername,
             // skips database password
             // we will not send it to the user unless they ask for it
             databasePort = request.databasePort

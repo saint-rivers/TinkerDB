@@ -1,6 +1,5 @@
 package com.saintrivers.tinkerdb.controller.docker
 
-import com.saintrivers.tinkerdb.commons.database.DatabaseType
 import com.saintrivers.tinkerdb.commons.database.DatabaseContainerRequest
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
@@ -25,23 +24,28 @@ class DockerHandler(private val dockerService: DockerService) {
     }
 
     fun createPostgres(req: ServerRequest): Mono<ServerResponse> {
-        val databaseRequest = DatabaseContainerRequest(
-            databaseType = DatabaseType.MYSQL,
-            databaseVersion = "8.0.31-oracle",
-            containerName = "mysql-testing",
-            rootPassword = "postgres",
-            username = "admin",
-            password = "postgres",
-            databaseName = "neon",
-            databasePort = 5433
-        )
-        val details = dockerService.createDatabaseContainer(databaseRequest)
-        return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(
-                mapOf(
-                    "status" to "success",
-                    "details" to details
-                )
-            )
+        return req.bodyToMono(DatabaseContainerRequest::class.java)
+            .doOnNext {
+                it.username = "eamdayan"
+                dockerService.createDatabaseContainer(request = it)
+            }
+            .flatMap {
+                ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                    .bodyValue(
+                        mapOf(
+                            "status" to "success",
+                            "details" to it
+                        )
+                    )
+            }
     }
+
+    fun stopDatabase(req: ServerRequest): Mono<ServerResponse> {
+        val containerId = req.pathVariables()["containerId"]
+        val isStopped = containerId?.let { dockerService.stopDatabaseContainer(it) }
+        return ServerResponse.ok().bodyValue(
+            mapOf("containerStatus" to isStopped)
+        )
+    }
+
 }

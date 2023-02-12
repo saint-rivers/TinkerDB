@@ -2,6 +2,10 @@ package com.saintrivers.tinkerdb.docker
 
 import com.saintrivers.tinkerdb.commons.database.DatabaseContainerRequest
 
+fun stop(containerId: String): Array<String> {
+    return arrayOf("stop", containerId)
+}
+
 fun runPostgres(request: DatabaseContainerRequest): Array<String> {
     return arrayOf(
         "run",
@@ -9,11 +13,11 @@ fun runPostgres(request: DatabaseContainerRequest): Array<String> {
         "--name",
         request.containerName,
         "-e",
-        "POSTGRES_USER=${request.username}",
+        "POSTGRES_USER=${request.dbUsername}",
         "-e",
         "POSTGRES_DB=${request.databaseName}",
         "-e",
-        "POSTGRES_PASSWORD=${request.password}",
+        "POSTGRES_PASSWORD=${request.dbPassword}",
         "-p",
         "${request.databasePort}:5432",
         "postgres:${request.databaseVersion}"
@@ -27,9 +31,9 @@ fun runMySQL(request: DatabaseContainerRequest): Array<String> {
         "--name",
         request.containerName,
         "-e",
-        "MYSQL_USER=${request.username}",
+        "MYSQL_USER=${request.dbUsername}",
         "-e",
-        "MYSQL_PASSWORD=${request.password}",
+        "MYSQL_PASSWORD=${request.dbPassword}",
         "-e",
         "MYSQL_ROOT_PASSWORD=${request.rootPassword}",
         "-e",
